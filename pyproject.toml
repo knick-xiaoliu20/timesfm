@@ -39,6 +39,12 @@ cpu = [
     "torch>=2.0.0",
     "jax[cpu]",
 ]
+# Personal addition: dev extras for linting/testing during local development
+dev = [
+    "ruff",
+    "pytest",
+    "pytest-cov",
+]
 
 [tool.ruff]
 line-length = 88
