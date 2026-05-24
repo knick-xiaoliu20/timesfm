@@ -34,3 +34,9 @@ pytest v1/tests/
 ```
 
 See `README.md` for full developer setup.
+
+## Personal notes
+
+- I'm using this fork primarily to experiment with fine-tuning on custom time-series datasets.
+- The `v1/` notebooks are handy for quick sanity checks before running full evaluations.
+- Note: `pytest v1/tests/` requires the optional dev dependencies (`pip install -e '.[dev]'`); easy to miss if setting up a fresh venv.
