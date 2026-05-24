@@ -39,6 +39,13 @@ class TestPadOrTruncate:
         out, _ = pad_or_truncate(ts, context_length=3, pad_value=-1.0)
         np.testing.assert_array_equal(out, [-1.0, -1.0, 1.0])
 
+    def test_empty_series_is_all_padding(self):
+        # Edge case: empty input should produce all-padding output and zero mask.
+        ts = np.array([], dtype=float)
+        out, mask = pad_or_truncate(ts, context_length=3)
+        np.testing.assert_array_equal(out, [0.0, 0.0, 0.0])
+        np.testing.assert_array_equal(mask, [0, 0, 0])
+
 
 class TestNormalizeSeries:
     def test_output_has_zero_mean_unit_std(self):
@@ -70,3 +77,10 @@ class TestBatchTimeSeries:
         series = [np.array([1, 2, 3])]
         batch, _ = batch_time_series(series, context_length=3)
         assert batch.dtype == np.float32
+
+    def test_single_series_batch(self):
+        # Sanity check that a single-element list still produces correct shape.
+        series = [np.array([1.0, 2.0, 3.0])]
+        batch, masks = batch_time_series(series, context_length=3)
+        assert batch.shape == (1, 3)
+        np.testing.assert_array_equal(masks[0], [1, 1, 1])
