@@ -40,13 +40,14 @@ def pad_or_truncate(
 
 def normalize_series(
     time_series: np.ndarray,
-    eps: float = 1e-8,
+    eps: float = 1e-6,
 ) -> tuple[np.ndarray, float, float]:
     """Z-score normalise a 1-D time series.
 
     Args:
         time_series: 1-D array of observed values.
-        eps: Small constant to avoid division by zero.
+        eps: Small constant to avoid division by zero. Increased default from
+            1e-8 to 1e-6 to better handle near-constant series in practice.
 
     Returns:
         Tuple of (normalised_series, mean, std).
