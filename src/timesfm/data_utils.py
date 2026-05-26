@@ -51,6 +51,9 @@ def normalize_series(
 
     Returns:
         Tuple of (normalised_series, mean, std).
+
+    Note:
+        To denormalize predictions: predictions * std + mean
     """
     mean = float(np.mean(time_series))
     std = float(np.std(time_series)) + eps
@@ -72,7 +75,13 @@ def batch_time_series(
     Returns:
         Tuple of (batch_array, mask_array) each with shape
         (len(series_list), context_length).
+
+    Raises:
+        ValueError: If series_list is empty.
     """
+    if len(series_list) == 0:
+        raise ValueError("series_list must not be empty.")
+
     batch, masks = [], []
     for ts in series_list:
         padded, mask = pad_or_truncate(np.asarray(ts, dtype=np.float32),
